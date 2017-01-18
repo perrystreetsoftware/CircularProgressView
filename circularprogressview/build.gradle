@@ -1,14 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
-        versionCode VERSION_CODE.toInteger()
-        versionName VERSION_NAME
+        versionCode 210
+        versionName "2.5.1"
     }
     buildTypes {
         release {
@@ -25,5 +24,3 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
-
-apply from: './gradle-mvn-push.gradle'
