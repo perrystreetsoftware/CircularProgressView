@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -269,8 +268,10 @@ public class CircularProgressView extends View {
         this.currentProgress = currentProgress;
         // Reset the determinate animation to approach the new currentProgress
         if (!isIndeterminate) {
-            if (progressAnimator != null && progressAnimator.isRunning())
+            if (progressAnimator != null && progressAnimator.isRunning()) {
+                progressAnimator.removeAllListeners();
                 progressAnimator.cancel();
+            }
             progressAnimator = ValueAnimator.ofFloat(actualProgress, currentProgress);
             progressAnimator.setDuration(animSyncDuration);
             progressAnimator.setInterpolator(new LinearInterpolator());
@@ -328,12 +329,18 @@ public class CircularProgressView extends View {
      */
     public void resetAnimation() {
         // Cancel all the old animators
-        if(startAngleRotate != null && startAngleRotate.isRunning())
+        if(startAngleRotate != null && startAngleRotate.isRunning()) {
+            startAngleRotate.removeAllListeners();
             startAngleRotate.cancel();
-        if(progressAnimator != null && progressAnimator.isRunning())
+        }
+        if(progressAnimator != null && progressAnimator.isRunning()) {
+            progressAnimator.removeAllListeners();
             progressAnimator.cancel();
-        if(indeterminateAnimator != null && indeterminateAnimator.isRunning())
+        }
+        if(indeterminateAnimator != null && indeterminateAnimator.isRunning()) {
+            indeterminateAnimator.removeAllListeners();
             indeterminateAnimator.cancel();
+        }
 
         // Determinate animation
         if(!isIndeterminate)
@@ -408,17 +415,19 @@ public class CircularProgressView extends View {
     /**
      * Stops the animation
      */
-
     public void stopAnimation() {
         if(startAngleRotate != null) {
+            startAngleRotate.removeAllListeners();
             startAngleRotate.cancel();
             startAngleRotate = null;
         }
         if(progressAnimator != null) {
+            progressAnimator.removeAllListeners();
             progressAnimator.cancel();
             progressAnimator = null;
         }
         if(indeterminateAnimator != null) {
+            indeterminateAnimator.removeAllListeners();
             indeterminateAnimator.cancel();
             indeterminateAnimator = null;
         }
